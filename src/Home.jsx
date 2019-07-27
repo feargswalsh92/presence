@@ -63,7 +63,10 @@ export default class Home extends Component {
           <li style = {styles.listOfBellsItem}
             key={item.id}
             onClick={() => this.setState({ selectedTrack: item.title })}>
+            <div>
           <img alt="bell" src={meditationGuru}/>
+          <div>{item.title} </div>
+          </div>
           </li>
         </div>
         );
