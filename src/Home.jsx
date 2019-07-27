@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {Component, Image} from 'react';
 import smallBowl from './small-bowl.wav';
 import harmonyBell from './harmonyBell.wav';
+import meditationGuru from './assets/meditationGuru.png'
+
 
 function getTime(time) {
   if(!isNaN(time)) {
@@ -8,7 +10,8 @@ function getTime(time) {
   }
 }
 
-export default class Home extends React.Component {
+export default class Home extends Component {
+
     state = {
       selectedTrack: null,
       player: "stopped",
@@ -57,11 +60,10 @@ export default class Home extends React.Component {
       const list = [{ id: 1, title: "Small Bowl" }, {id: 2, title: "Harmony Bell"}].map(item => {
         return (
           <div>
-          <li
+          <li style = {styles.listOfBellsItem}
             key={item.id}
-            onClick={() => this.setState({ selectedTrack: item.title })}
-          >
-          {item.title}
+            onClick={() => this.setState({ selectedTrack: item.title })}>
+          <img alt="bell" src={meditationGuru}/>
           </li>
         </div>
         );
@@ -70,12 +72,23 @@ export default class Home extends React.Component {
       return (
         <>
           <h1>Choose your bell sound</h1>
-          <ul>{list}</ul>
+          <ul style={styles.listOfBells}>{list}</ul>
           <audio ref={ref => this.player = ref} />
-          <div>
-            {duration}
-           </div>
         </>
       );
     }
   }
+
+  const styles = {
+    listOfBells: {
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      listStyleImage: `url(${meditationGuru})`,
+      width: '100%',
+    },
+    listOfBellsItem: {
+        display: 'block',
+        listStyleImage: `url(${meditationGuru})`,
+    }
+  }
+
