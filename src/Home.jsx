@@ -33,6 +33,9 @@ export default class Home extends Component {
       this.player.removeEventListener("timeupdate", () => {})
     }
 
+
+
+
     componentDidUpdate(prevProps, prevState) {
         console.log(this.state)
         if(this.state.selectedTrack !== prevState.selectedTrack || this.state.duration === this.state.currentTime ) {
@@ -54,13 +57,24 @@ export default class Home extends Component {
           }
         }
       }
+    
+    
   
     render() {
       const duration = getTime(this.state.duration)
+      const times = [{id: 8, label: "2", value: 2}, {id: 9, label: "5", value: 5}, {id: 10, label: "10 mins", value: 10} ]
       const list = [{ id: 1, title: "Small Bowl" }, {id: 2, title: "Harmony Bell"}].map(item => {
         return (
           <div>
           <li style = {styles.listOfBellsItem}
+            key={item.id}
+            onClick={() => this.setState({ selectedTrack: item.title })}>
+            <div>
+          <img alt="bell" src={meditationGuru}/>
+          <div>{item.title} </div>
+          </div>
+          </li>
+          <li style = {styles.listOfTimesItem}
             key={item.id}
             onClick={() => this.setState({ selectedTrack: item.title })}>
             <div>
@@ -92,6 +106,9 @@ export default class Home extends Component {
     listOfBellsItem: {
         display: 'block',
         listStyleImage: `url(${meditationGuru})`,
-    }
+    },
+    listOfTimesItem: {
+      display: 'block',
+    },
   }
 
