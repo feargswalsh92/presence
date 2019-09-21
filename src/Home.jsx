@@ -1,4 +1,4 @@
-import React, {Component, Image} from 'react';
+import React, {Component} from 'react';
 import smallBowl from './small-bowl.wav';
 import harmonyBell from './harmonyBell.wav';
 import meditationGuru from './assets/meditationGuru.png'
@@ -16,7 +16,7 @@ export default class Home extends Component {
       selectedTrack: null,
       player: "stopped",
       selectedTime: 2,
-      time: 0,
+      delay: 5000,
       duration: null,
     };
 
@@ -37,7 +37,8 @@ export default class Home extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.selectedTrack !== prevState.selectedTrack || this.state.duration === this.state.currentTime ) {
+        const { selectedTrack, delay } = this.state;
+        if(this.state.selectedTrack !== prevState.selectedTrack ) {
           let track;
           switch(this.state.selectedTrack) {
             case "Small Bowl":
@@ -51,13 +52,19 @@ export default class Home extends Component {
           }
           if(track) {
             this.player.src = track;
-            this.player.play();
-            this.setState({player: "playing", duration: this.player.duration}, console.log('this.state', this.state));
+            // this.player.loop=true;
+           this.player.play()
+           window.setInterval( () =>  this.player.play(), delay);
+           this.setState({player: "playing", duration: this.player.duration}, console.log('this.state', this.state));
           }
         }
-        }
+    }
+
+    componentWillUnmount() {
+      window.clearInterval();
+    }
       
-      renderTimes() {
+    renderTimes() {
       const {times} = this.props;
       return times.map(time => {
        return ( 
