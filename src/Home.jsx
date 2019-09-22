@@ -14,7 +14,7 @@ export default class Home extends Component {
 
     state = {
       selectedTrack: null,
-      player: "stopped",
+      player: "paused",
       selectedTime: 2,
       delay: 5000,
       duration: null,
@@ -54,20 +54,20 @@ export default class Home extends Component {
             this.player.src = track;
             // this.player.loop=true;
            this.player.play()
-           window.setInterval( () =>  this.player.play(), delay);
-           this.setState({player: "playing", duration: this.player.duration}, console.log('this.state', this.state));
+           let intervalId = setInterval( () =>  this.player.play(), delay);
+           this.setState({player: "playing", intervalId: intervalId, duration: this.player.duration}, console.log('this.state', this.state));
           }
         }
     }
 
     componentWillUnmount() {
-      window.clearInterval();
+      clearInterval(this.state.intervalId);
     }
       
     renderTimes() {
       const {times} = this.props;
       return times.map(time => {
-       return ( 
+       return (
        <li style = {styles.listOfTimesItem} key={time.id}>
           <div>{time.label} </div>
       </li>
@@ -75,16 +75,18 @@ export default class Home extends Component {
       });
     }
 
-    handlePlayButtonPress = () => {
-      const { player } = this.state;
+    handlePlayButtonPress = (interval) => {
+      const { player, delay } = this.state;
       switch(player) {
         case "playing":
           this.setState({player: "paused"})
           this.player.pause()
+          clearInterval(this.state.intervalId);
         break;
         case "paused":
-          this.setState({player: "playing"})
           this.player.play();
+          let intervalId = setInterval( () =>  this.player.play(), delay);
+          this.setState({player: "playing", intervalId: intervalId} )
         break;
         default:
         break;
@@ -107,19 +109,18 @@ export default class Home extends Component {
         </div>
         );
       });
-
-
-      const times = [{id: 8, label: "2 mins", value: 2}, {id: 9, label: "5 mins", value: 5, default: true}, {id: 10, label: "10 mins", value: 10} ].map(time => {
+      
+      const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 300000, default: true}, {id: 10, label: "10 mins", value: 600000} ].map(time => {
         return ( 
         <li 
         style = {styles.listOfTimesItem} 
         key={time.id}
-        onClick={() => this.setState({ selectedTime: time.title })}>
+        onClick={() => this.setState({ delay: time.value })}>
        <div>{time.label} </div>
        </li>
         );
        });
-  
+      // const interval = window.setInterval( () =>  this.player.play(), this.state.delay);
       return (
         <>
           <h1>Choose your bell sound</h1>
