@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import smallBowl from './small-bowl.wav';
 import harmonyBell from './harmonyBell.wav';
 import meditationGuru from './assets/meditationGuru.png'
+import play from './assets/play.png'
+import pause from './assets/pause.png'
 
 
 function getTime(time) {
@@ -128,8 +130,8 @@ export default class Home extends Component {
         <>
           <h1>Choose your bell sound</h1>
           <ul style={styles.listOfBells}>{list}</ul>
-          <button onClick={this.handlePlayButtonPress} >{this.state.player} </button>
-          <ul>{times}</ul>
+          <ul style={styles.listOfBells}>{times}</ul>
+          <button> <img  alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? pause : play} /></button>
           <audio ref={ref => this.player = ref} />
         </>
       );
@@ -140,20 +142,18 @@ export default class Home extends Component {
     listOfBells: {
       display: 'flex',
       justifyContent: 'space-evenly',
-      // listStyleImage: `url(${meditationGuru})`,
       listStyleType: 'none',
       width: '100%',
       border: '1px',
       borderColor: 'red',
       borderRadius: '100%',
       height: '1em',
-      padding: '0.25em',
+      padding: '1.25em',
       lineHeight: '1.0',
       marginRight: '0.5em',
     },
     listOfBellsItem: {
         display: 'block',
-        // listStyleImage: `url(${meditationGuru})`,
     },
     selectedListOfBellsItem: {
       display: 'block',
