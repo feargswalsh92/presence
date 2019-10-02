@@ -17,6 +17,7 @@ export default class Home extends Component {
       player: "paused",
       selectedTime: 2,
       delay: 5000,
+      activeListId: null,
       duration: null,
     };
 
@@ -58,8 +59,7 @@ export default class Home extends Component {
             this.player.src = track;
             console.log('componentDiUpdate');
            this.player.play()
-           let intervalId = setInterval( () =>  this.player.play(), delay);
-           this.setState({player: "playing", intervalId: intervalId, duration: this.player.duration}, console.log('this.state', this.state));
+           this.setState({player: "playing"});
           }
         }
     }
@@ -92,16 +92,21 @@ export default class Home extends Component {
         break;
       }
     }
+
+    setOpenIndex = item => this.setState({selectedTrack: item.title, activeListId: item.id})
+
   
     render() {
+      const { activeListId } = this.state;
+      const borderStyle = {border: '1px solid #021a40'}
       const list = [{ id: 1, title: "Small Bowl", selected: false }, {id: 2, title: "Harmony Bell", selected: false}].map(item => {
         return (
+          <div
+          onClick={() => this.setOpenIndex(item)}>
+          <li
+          key={item.id}>
           <div>
-          <li style = {styles.listOfBellsItem}
-            key={item.id}
-            onClick={() => this.setState({ selectedTrack: item.title })}>
-            <div>
-          <img alt="bell" src={meditationGuru}/>
+          <img alt="bell" src={meditationGuru} style={ item.id === activeListId ? borderStyle : {} }/>
           <div>{item.title} </div>
           </div>
           </li>
@@ -135,13 +140,36 @@ export default class Home extends Component {
     listOfBells: {
       display: 'flex',
       justifyContent: 'space-evenly',
-      listStyleImage: `url(${meditationGuru})`,
+      // listStyleImage: `url(${meditationGuru})`,
+      listStyleType: 'none',
       width: '100%',
+      border: '1px',
+      borderColor: 'red',
+      borderRadius: '100%',
+      height: '1em',
+      padding: '0.25em',
+      lineHeight: '1.0',
+      marginRight: '0.5em',
     },
     listOfBellsItem: {
         display: 'block',
-        listStyleImage: `url(${meditationGuru})`,
+        // listStyleImage: `url(${meditationGuru})`,
     },
+    selectedListOfBellsItem: {
+      display: 'block',
+      // listStyleImage: `url(${meditationGuru})`,
+      border: '1px',
+      borderColor: 'red',
+      borderRadius: '100%',
+      width: '1em',
+      height: '1em',
+      padding: '0.25em',
+      lineHeight: '1.0',
+      marginRight: '0.5em',
+  },
+  unselectedListOfBellsItem: {
+    border: 'none',
+  },
     listOfTimesItem: {
       display: 'block',
     },
