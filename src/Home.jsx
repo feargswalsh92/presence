@@ -95,16 +95,16 @@ export default class Home extends Component {
       }
     }
 
-    setOpenIndex = item => this.setState({selectedTrack: item.title, activeListId: item.id})
-
+    setBellIndex = item => this.setState({selectedTrack: item.title, activeListId: item.id})
+    setSelectedTimeIndex = time => this.setState({ activeTimeId: time.id, delay: time.value })
   
     render() {
-      const { activeListId } = this.state;
+      const { activeListId, activeTimeId } = this.state;
       const borderStyle = {border: '1px solid #021a40'}
       const list = [{ id: 1, title: "Small Bowl", selected: false }, {id: 2, title: "Harmony Bell", selected: false}].map(item => {
         return (
           <div
-          onClick={() => this.setOpenIndex(item)}>
+          onClick={() => this.setBellIndex(item)}>
           <li
           key={item.id}>
           <div>
@@ -116,13 +116,14 @@ export default class Home extends Component {
         );
       });
 
-      const times = [{id: 8, label: "2 mins", value: 2000}, {id: 9, label: "5 mins", value: 5000, default: true}, {id: 10, label: "10 mins", value: 10000} ].map(time => {
+
+      const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 30000, default: true}, {id: 10, label: "10 mins", value: 60000} ].map(time => {
         return ( 
         <li 
         style = {styles.listOfTimesItem}
         key={time.id}
-        onClick={() => this.setState({ delay: time.value })}>
-       <div>{time.label} </div>
+        onClick={() => this.setSelectedTimeIndex(time)}>
+       <div style={ time.id === activeTimeId ? borderStyle : {} }>{time.label} </div>
        </li>
         );
        });
@@ -131,7 +132,7 @@ export default class Home extends Component {
           <h1>Choose your bell sound</h1>
           <ul style={styles.listOfBells}>{list}</ul>
           <ul style={styles.listOfBells}>{times}</ul>
-          <button> <img  alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? pause : play} /></button>
+          <button> <img  alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? play : pause} /></button>
           <audio ref={ref => this.player = ref} />
         </>
       );
