@@ -116,7 +116,6 @@ export default class Home extends Component {
         );
       });
 
-
       const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 300000, default: true}, {id: 10, label: "10 mins", value: 600000} ].map(time => {
         return ( 
         <li 
@@ -151,7 +150,7 @@ export default class Home extends Component {
       height: '1em',
       padding: '1.25em',
       lineHeight: '1.0',
-      marginRight: '0.5em',
+      marginRight: '-0.5em',
     },
     listOfBellsItem: {
         display: 'block',
@@ -166,7 +165,7 @@ export default class Home extends Component {
       height: '1em',
       padding: '0.25em',
       lineHeight: '1.0',
-      marginRight: '0.5em',
+      marginRight: '-0.5em',
   },
   unselectedListOfBellsItem: {
     border: 'none',
