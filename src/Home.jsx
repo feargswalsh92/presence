@@ -117,7 +117,7 @@ export default class Home extends Component {
       });
 
 
-      const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 30000, default: true}, {id: 10, label: "10 mins", value: 60000} ].map(time => {
+      const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 300000, default: true}, {id: 10, label: "10 mins", value: 600000} ].map(time => {
         return ( 
         <li 
         style = {styles.listOfTimesItem}
