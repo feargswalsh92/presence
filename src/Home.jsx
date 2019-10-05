@@ -100,7 +100,8 @@ export default class Home extends Component {
   
     render() {
       const { activeListId, activeTimeId } = this.state;
-      const borderStyle = {border: '1px solid #021a40'}
+      const borderStyleTransparent = {borderRadius: '50%', border: '2px solid transparent'}
+      const borderStyle = {borderRadius: '50%', border: '2px solid #FEDD02'}
       const list = [{ id: 1, title: "Small Bowl", selected: false }, {id: 2, title: "Harmony Bell", selected: false}].map(item => {
         return (
           <div
@@ -108,7 +109,7 @@ export default class Home extends Component {
           <li
           key={item.id}>
           <div>
-          <img alt="bell" src={meditationGuru} style={ item.id === activeListId ? borderStyle : {} }/>
+          <img alt="bell" src={meditationGuru} style={ item.id === activeListId ?  borderStyle :  borderStyleTransparent }/>
           <div>{item.title} </div>
           </div>
           </li>
@@ -122,13 +123,12 @@ export default class Home extends Component {
         style = {styles.listOfTimesItem}
         key={time.id}
         onClick={() => this.setSelectedTimeIndex(time)}>
-       <div style={ time.id === activeTimeId ? borderStyle : {} }>{time.label} </div>
+       <div style={ time.id === activeTimeId ? styles.listOfTimesSelected : styles.listOfTimesTransparent }>{time.label} </div>
        </li>
         );
        });
       return (
         <>
-          <h1>Choose your bell sound</h1>
           <ul style={styles.listOfBells}>{list}</ul>
           <ul style={styles.listOfBells}>{times}</ul>
           <button> <img  alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? play : pause} /></button>
@@ -173,5 +173,16 @@ export default class Home extends Component {
     listOfTimesItem: {
       display: 'block',
     },
+    listOfTimesSelected: {
+      width: '3rem',
+      height: '3rem',
+      borderRadius: '50%',
+      border: '2px solid #FEDD02',
+  },
+  listOfTimesTransparent: {
+    width: '3rem',
+    height: '3rem',
+    borderRadius: '50%',
+    border: '2px solid transparent',
   }
-
+}
