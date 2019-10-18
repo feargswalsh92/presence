@@ -6,20 +6,15 @@ import play from './assets/play.png'
 import pause from './assets/pause.png'
 
 
-function getTime(time) {
-  if(!isNaN(time)) {
-    return Math.floor(time / 60) + ':' + ('0' + Math.floor(time % 60)).slice(-2)
-  }
-}
-
 export default class Home extends Component {
 
     state = {
       selectedTrack: null,
       player: "paused",
       selectedTime: 2,
-      delay: 5000,
+      delay: 120000,
       activeListId: null,
+      activeTimeId: 8,
       duration: null,
     };
 
@@ -45,6 +40,7 @@ export default class Home extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { selectedTrack, delay } = this.state;
+        console.log('delay', delay);
         if(selectedTrack !== prevState.selectedTrack ) {
           let track;
           switch(this.state.selectedTrack) {
@@ -131,7 +127,7 @@ export default class Home extends Component {
         <>
           <ul style={styles.listOfBells}>{list}</ul>
           <ul style={styles.listOfBells}>{times}</ul>
-          <button> <img  alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? play : pause} /></button>
+          <button style = {styles.playPauseButton}> <img alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? play : pause} /></button>
           <audio ref={ref => this.player = ref} />
         </>
       );
@@ -139,6 +135,11 @@ export default class Home extends Component {
   }
 
   const styles = {
+
+    playPauseButton: {
+      background: 'transparent',
+      border: 'none',
+    },
     listOfBells: {
       display: 'flex',
       justifyContent: 'space-evenly',
