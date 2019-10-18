@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import Home from './Home.jsx';
-import lake from './assets/lake.jpg'
+import lake from './assets/lake.jpg';
+import buddhaCrystal from './assets/buddhaCrystal.jpg';
 import './App.css';
 
 function App() {

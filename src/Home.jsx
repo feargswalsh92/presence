@@ -6,20 +6,15 @@ import play from './assets/play.png'
 import pause from './assets/pause.png'
 
 
-function getTime(time) {
-  if(!isNaN(time)) {
-    return Math.floor(time / 60) + ':' + ('0' + Math.floor(time % 60)).slice(-2)
-  }
-}
-
 export default class Home extends Component {
 
     state = {
       selectedTrack: null,
       player: "paused",
       selectedTime: 2,
-      delay: 5000,
+      delay: 120000,
       activeListId: null,
+      activeTimeId: 8,
       duration: null,
     };
 
@@ -45,6 +40,7 @@ export default class Home extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { selectedTrack, delay } = this.state;
+        console.log('delay', delay);
         if(selectedTrack !== prevState.selectedTrack ) {
           let track;
           switch(this.state.selectedTrack) {
@@ -100,7 +96,8 @@ export default class Home extends Component {
   
     render() {
       const { activeListId, activeTimeId } = this.state;
-      const borderStyle = {border: '1px solid #021a40'}
+      const borderStyleTransparent = {borderRadius: '50%', border: '2px solid transparent'}
+      const borderStyle = {borderRadius: '50%', border: '2px solid #FEDD02'}
       const list = [{ id: 1, title: "Small Bowl", selected: false }, {id: 2, title: "Harmony Bell", selected: false}].map(item => {
         return (
           <div
@@ -108,7 +105,7 @@ export default class Home extends Component {
           <li
           key={item.id}>
           <div>
-          <img alt="bell" src={meditationGuru} style={ item.id === activeListId ? borderStyle : {} }/>
+          <img alt="bell" src={meditationGuru} style={ item.id === activeListId ?  borderStyle :  borderStyleTransparent }/>
           <div>{item.title} </div>
           </div>
           </li>
@@ -116,23 +113,21 @@ export default class Home extends Component {
         );
       });
 
-
-      const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 30000, default: true}, {id: 10, label: "10 mins", value: 60000} ].map(time => {
+      const times = [{id: 8, label: "2 mins", value: 120000}, {id: 9, label: "5 mins", value: 300000, default: true}, {id: 10, label: "10 mins", value: 600000} ].map(time => {
         return ( 
         <li 
         style = {styles.listOfTimesItem}
         key={time.id}
         onClick={() => this.setSelectedTimeIndex(time)}>
-       <div style={ time.id === activeTimeId ? borderStyle : {} }>{time.label} </div>
+       <div style={ time.id === activeTimeId ? styles.listOfTimesSelected : styles.listOfTimesTransparent }>{time.label} </div>
        </li>
         );
        });
       return (
         <>
-          <h1>Choose your bell sound</h1>
           <ul style={styles.listOfBells}>{list}</ul>
           <ul style={styles.listOfBells}>{times}</ul>
-          <button> <img  alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? play : pause} /></button>
+          <button style = {styles.playPauseButton}> <img alt="playButton" onClick={this.handlePlayButtonPress} src = {this.state.player === 'paused' ? play : pause} /></button>
           <audio ref={ref => this.player = ref} />
         </>
       );
@@ -140,6 +135,11 @@ export default class Home extends Component {
   }
 
   const styles = {
+
+    playPauseButton: {
+      background: 'transparent',
+      border: 'none',
+    },
     listOfBells: {
       display: 'flex',
       justifyContent: 'space-evenly',
@@ -151,7 +151,7 @@ export default class Home extends Component {
       height: '1em',
       padding: '1.25em',
       lineHeight: '1.0',
-      marginRight: '0.5em',
+      marginRight: '-0.5em',
     },
     listOfBellsItem: {
         display: 'block',
@@ -166,7 +166,7 @@ export default class Home extends Component {
       height: '1em',
       padding: '0.25em',
       lineHeight: '1.0',
-      marginRight: '0.5em',
+      marginRight: '-0.5em',
   },
   unselectedListOfBellsItem: {
     border: 'none',
@@ -174,5 +174,16 @@ export default class Home extends Component {
     listOfTimesItem: {
       display: 'block',
     },
+    listOfTimesSelected: {
+      width: '3rem',
+      height: '3rem',
+      borderRadius: '50%',
+      border: '2px solid #FEDD02',
+  },
+  listOfTimesTransparent: {
+    width: '3rem',
+    height: '3rem',
+    borderRadius: '50%',
+    border: '2px solid transparent',
   }
-
+}
